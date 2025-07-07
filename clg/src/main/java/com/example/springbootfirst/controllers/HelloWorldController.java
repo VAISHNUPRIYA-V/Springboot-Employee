@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/emp")
@@ -13,31 +14,62 @@ public class HelloWorldController {
     @Autowired
     private HelloWorldService hws;
 
-
     @GetMapping
     public List<Employee> getMethod(){
         return hws.getMethod();
     }
 
     @GetMapping("/{EmpId}")
-    public Employee getEmployeeById(@PathVariable int EmpId){
+    public Optional<Employee> getEmployeeById(@PathVariable int  EmpId){
         return hws.getEmployeeById(EmpId);
     }
 
+
     @PostMapping
-    public void postMethod(@RequestBody Employee emp){
-        hws.postMethod(emp);
+    public String postMethod(@RequestBody Employee e){
+        return hws.postMethod(e);
     }
 
     @PutMapping
-    public String UpdateRecord(@RequestBody Employee employee){
-        return hws.UpdateRecord(employee);
+    public String putMethod(@RequestBody Employee e){
+        return hws.putMethod(e);
     }
 
     @DeleteMapping("/{EmpId}")
     public String deleteMethod(@PathVariable int EmpId){
         return hws.deleteMethod(EmpId);
     }
+
+
+
+
+
+
+
+//    @GetMapping
+//    public List<Employee> getMethod(){
+//        return hws.getMethod();
+//    }
+//
+//    @GetMapping("/{EmpId}")
+//    public Employee getEmployeeById(@PathVariable int EmpId){
+//        return hws.getEmployeeById(EmpId);
+//    }
+//
+//    @PostMapping
+//    public void postMethod(@RequestBody Employee emp){
+//        hws.postMethod(emp);
+//    }
+//
+//    @PutMapping
+//    public String UpdateRecord(@RequestBody Employee employee){
+//        return hws.UpdateRecord(employee);
+//    }
+//
+//    @DeleteMapping("/{EmpId}")
+//    public String deleteMethod(@PathVariable int EmpId){
+//        return hws.deleteMethod(EmpId);
+//    }
 
 
 }

@@ -7,9 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-//@AllArgsConstructor
+@AllArgsConstructor
 @NoArgsConstructor
-//@Entity
+@Entity
 public class Employee {
     @Id
     private int EmpId;
@@ -22,9 +22,5 @@ public class Employee {
         return EmpId;
     }
 
-    public Employee(int empId, String name, String job) {
-        EmpId = empId;
-        Name = name;
-        Job = job;
-    }
+
 }
