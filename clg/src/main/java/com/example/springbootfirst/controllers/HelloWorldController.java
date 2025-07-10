@@ -3,6 +3,7 @@ package com.example.springbootfirst.controllers;
 import com.example.springbootfirst.models.Employee;
 import com.example.springbootfirst.services.HelloWorldService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,27 +15,32 @@ public class HelloWorldController {
     @Autowired
     private HelloWorldService hws;
 
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping
     public List<Employee> getMethod(){
         return hws.getMethod();
     }
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{EmpId}")
     public Optional<Employee> getEmployeeById(@PathVariable int  EmpId){
         return hws.getEmployeeById(EmpId);
     }
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public String postMethod(@RequestBody Employee e){
         return hws.postMethod(e);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
     public String putMethod(@RequestBody Employee e){
         return hws.putMethod(e);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{EmpId}")
     public String deleteMethod(@PathVariable int EmpId){
         return hws.deleteMethod(EmpId);
