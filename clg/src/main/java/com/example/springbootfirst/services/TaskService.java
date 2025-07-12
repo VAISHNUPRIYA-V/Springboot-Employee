@@ -20,8 +20,6 @@ public class TaskService {
                 .orElseThrow(()->new RuntimeException("Employee not found"));
         task.setAssignedEmployee(user);
         taskRepository.save(task);
-        return "Task assigned to employee id: "+empId;
-
-
+        return ("Task assigned to employee id: "+empId);
     }
 }

@@ -15,12 +15,7 @@ public class Employee {
     private int EmpId;
     private String Name;
     private String Job;
-
-
-
     public int getEmpId() {
         return EmpId;
     }
-
-
 }
