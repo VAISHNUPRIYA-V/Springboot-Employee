@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -17,71 +17,73 @@ public class RegisterDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int empId;
 
-    @Column(name = "emp_name",nullable = false)
-    private String empName;
-    private String email;
-    private String gender;
-    private String role;
-    private String Password;
-
-    @Column(name="date_of_birth")
-    private Date dateOfBirth;
-
-    public String getPassword() {
-        return Password;
-    }
-
-    public void setPassword(String password) {
-        Password = password;
-    }
-
-    public void setEmpId(int empId) {
-        this.empId = empId;
-    }
-
-    public void setEmpName(String empName) {
-        this.empName = empName;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
+    @Column(nullable = false)
+    private String name;
+    @Column(nullable = false,unique = true)
+    private String email;;
+    @Column(nullable = false)
+    private String password;
+    @Column(name = "user_name",nullable = false,unique=true)
+    private String userName;
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles",joinColumns =
+    @JoinColumn(name= "user_id",referencedColumnName = "empId"),
+            inverseJoinColumns = @JoinColumn(name="role_id",referencedColumnName = "roleId")
+    )
+    private Set<Roles> roles;
 
 
     public int getEmpId() {
         return empId;
     }
 
-    public String getEmpName() {
-        return empName;
+    public void setEmpId(int empId) {
+        this.empId = empId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public String getGender() {
-        return gender;
+    public String getPassword() {
+        return password;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getRole() {
-        return role;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Set<Roles> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Roles> roles) {
+        this.roles = roles;
+    }
+
+    public void setRoleNames(Set<Roles> roleNames) {
     }
 }

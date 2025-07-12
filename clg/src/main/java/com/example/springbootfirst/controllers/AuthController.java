@@ -1,6 +1,7 @@
 package com.example.springbootfirst.controllers;
 
 import com.example.springbootfirst.models.RegisterDetails;
+import com.example.springbootfirst.models.UserDetailsDto;
 import com.example.springbootfirst.services.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,8 @@ public class AuthController {
     @Autowired
     AuthService authService;
 
-    @PostMapping("/registered")
-    public String addNewUser(@RequestBody RegisterDetails register){
+    @PostMapping("/register")
+    public String addNewUser(@RequestBody UserDetailsDto register){
         return authService.addNewEmployee(register);
     }
 
