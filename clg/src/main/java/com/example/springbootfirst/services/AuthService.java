@@ -1,11 +1,18 @@
 package com.example.springbootfirst.services;
 
+import com.example.springbootfirst.models.AuthResponse;
 import com.example.springbootfirst.models.RegisterDetails;
 import com.example.springbootfirst.models.Roles;
 import com.example.springbootfirst.models.UserDetailsDto;
 import com.example.springbootfirst.repository.RegisterDetailsRepository;
+import com.example.springbootfirst.repository.RegisterRepository;
 import com.example.springbootfirst.repository.RolesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.example.springbootfirst.jwt.JwtTokenProvider;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
@@ -24,7 +32,16 @@ public class AuthService {
     RolesRepository rolerepo;
 
     @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    RegisterRepository registerRepository;
 
 
     public String addNewEmployee(UserDetailsDto register) {
@@ -46,23 +63,46 @@ public class AuthService {
         return "Employee Registered Successfully";
     }
 
-    public String authenticate(RegisterDetails login) {
-        RegisterDetails user=repo.findByEmail(login.getEmail());
-        if(user!=null){
-            //if(Objects.equals(user.getPassword(),login.getPassword())){
-            if(passwordEncoder.matches(login.getPassword(),user.getPassword())){
-                return "Login Successful";
-            }else{
-                return "Login not successful";
-            }
-        }
-        else{
-            return "Login not successful";
-        }
 
-    }
 
-    public List<RegisterDetails> getDetails() {
-        return repo.findAll();
+
+
+
+//    public String authenticate(RegisterDetails login) {
+//        RegisterDetails user=repo.findByEmail(login.getEmail());
+//        if(user!=null){
+//            //if(Objects.equals(user.getPassword(),login.getPassword())){
+//            if(passwordEncoder.matches(login.getPassword(),user.getPassword())){
+//                return "Login Successful";
+//            }else{
+//                return "Login not successful";
+//            }
+//        }
+//        else{
+//            return "Login not successful";
+//        }
+//
+//    }
+//
+//    public List<RegisterDetails> getDetails() {
+//        return repo.findAll();
+//    }
+
+
+
+    public AuthResponse authenticate(RegisterDetails login) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        login.getUserName(), login.getPassword()));
+
+        String token = jwtTokenProvider.generateToken(authentication);
+        RegisterDetails user = registerRepository.findByUserName(login.getUserName())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Set<String> roleNames = user.getRoles()
+                .stream()
+                .map(role -> role.getRoleName())
+                .collect(Collectors.toSet());
+
+        return new AuthResponse(token, user.getUserName(), roleNames);
     }
 }

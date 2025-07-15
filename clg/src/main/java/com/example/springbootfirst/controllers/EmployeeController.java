@@ -1,6 +1,7 @@
 package com.example.springbootfirst.controllers;
 
 import com.example.springbootfirst.models.RegisterDetails;
+import com.example.springbootfirst.models.UserDetailsDto;
 import com.example.springbootfirst.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +14,8 @@ import java.util.List;
 public class EmployeeController {
     @Autowired
     private EmployeeService hws;
+
+
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping("/")
     public String route(){
@@ -49,14 +52,14 @@ public class EmployeeController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/employee")
-    public String postMethod(@RequestBody RegisterDetails employee){
-        return hws.addEmployee(employee);
+    public String postMethod(@RequestBody UserDetailsDto employee){
+        return hws.addNewEmployee(employee);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/employee/{empId}")
-    public String putMethod(@PathVariable int empId,@RequestBody RegisterDetails details){
-        return hws.putMethod(empId,details);
+    public String putMethod(@PathVariable int empId,@RequestBody UserDetailsDto details){
+        return hws.updateEmployee(empId,details);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

@@ -57,10 +57,6 @@ public class EmployeeService {
         return "Employee deleted Successfully!!!";
     }
 
-     public String addEmployee(RegisterDetails e) {
-         repo.save(e);
-         return("Employee added Successfully!!!");
-     }
 
      public String addNewEmployee(UserDetailsDto register) {
          RegisterDetails registerDetails = new RegisterDetails();
@@ -84,6 +80,22 @@ public class EmployeeService {
      public RegisterDetails getEmployeeByRole(String role) {
      return repo.findByRole(role).orElse(new RegisterDetails());
      }
+     public String updateEmployee(int empId, UserDetailsDto details) {
+         RegisterDetails user=repo.findById(empId)
+                 .orElseThrow(()->new RuntimeException("No such user present"));
+         user.setName(details.getName());
+         user.setEmail(details.getEmail());
+         user.setPassword(details.getPassword());
+         user.setUserName(details.getUserName());
+         repo.save(user);
+         return "Employee updated successfully";
+     }
+
+     public String deleteEmployee(int empId) {
+         repo.deleteById(empId);
+         return "Employee deleted successfully";
+     }
+
  }
 
 
