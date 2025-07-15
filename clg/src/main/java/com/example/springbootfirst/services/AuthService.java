@@ -41,7 +41,7 @@ public class AuthService {
                             .orElseThrow(()->new RuntimeException("Role not found" + roleName));
                     roles.add(role);
         }
-        registerDetails.setRoleNames(roles);
+        registerDetails.setRoles(roles);
         repo.save(registerDetails);
         return "Employee Registered Successfully";
     }

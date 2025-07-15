@@ -1,16 +1,12 @@
 package com.example.springbootfirst.controllers;
 
-import com.example.springbootfirst.models.Employee;
 import com.example.springbootfirst.models.RegisterDetails;
-import com.example.springbootfirst.models.UserDetailsDto;
 import com.example.springbootfirst.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 //@RequestMapping("/emp")
