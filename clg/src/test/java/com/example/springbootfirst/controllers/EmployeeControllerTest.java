@@ -30,7 +30,7 @@ class EmployeeControllerTest {
     @Test
     void testRoute(){
         String result = employeeController.route();;
-        assertEquals("Welcome to Springboot Security",result);
+        assertEquals("Welcome to SpringBoot Security",result);
     }
 
     @Test
@@ -93,10 +93,18 @@ class EmployeeControllerTest {
 
     @Test
     void testDeleteMethod() {
-        when(employeeService.deleteEmployee(1)).thenReturn("Employee deleted successfully");
-        String result = employeeController.deleteMethod(1);
+        // Arrange
+        int empId = 1;
+        String expectedResponse = "Employee deleted successfully";
 
-        assertEquals("Employee deleted successfully", result);
+        when(employeeService.deleteMethod(empId)).thenReturn(expectedResponse);
+
+        // Act
+        String actualResponse = employeeController.deleteMethod(empId);
+
+        // Assert
+        assertEquals(expectedResponse, actualResponse);
     }
+
 
 }

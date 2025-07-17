@@ -63,9 +63,9 @@ public class EmployeeController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/emp/{empID}")
-    public String deleteMethod(@PathVariable int empID){
-        return hws.deleteMethod(empID);
+    @DeleteMapping("/employee/{empId}")
+    public String deleteMethod(@PathVariable int empId){
+        return hws.deleteMethod(empId);
     }
 
 

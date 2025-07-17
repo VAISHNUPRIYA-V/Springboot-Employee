@@ -1,6 +1,6 @@
 package com.example.springbootfirst.services;
 
-import com.example.springbootfirst.models.AuthResponse;
+import com.example.springbootfirst.models.JwtResponse;
 import com.example.springbootfirst.models.RegisterDetails;
 import com.example.springbootfirst.models.Roles;
 import com.example.springbootfirst.models.UserDetailsDto;
@@ -17,8 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -90,7 +88,7 @@ public class AuthService {
 
 
 
-    public AuthResponse authenticate(RegisterDetails login) {
+    public JwtResponse authenticate(RegisterDetails login) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         login.getUserName(), login.getPassword()));
@@ -103,6 +101,6 @@ public class AuthService {
                 .map(role -> role.getRoleName())
                 .collect(Collectors.toSet());
 
-        return new AuthResponse(token, user.getUserName(), roleNames);
+        return new JwtResponse(token, user.getUserName(), roleNames);
     }
 }

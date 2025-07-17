@@ -90,7 +90,7 @@ class EmployeeServiceTest {
 
     @Test
     void testDeleteEmployee() {
-        String result = employeeService.deleteEmployee(1);
+        String result = employeeService.deleteMethod(1);
         assertEquals("Employee deleted successfully", result);
     }
 

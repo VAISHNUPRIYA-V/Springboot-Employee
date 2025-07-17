@@ -20,17 +20,18 @@ public class RegisterDetails {
     @Column(nullable = false)
     private String name;
     @Column(nullable = false,unique = true)
-    private String email;;
+    private String email;
     @Column(nullable = false)
     private String password;
     @Column(name = "user_name",nullable = false,unique=true)
     private String userName;
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @JoinTable(name = "user_roles",joinColumns =
-    @JoinColumn(name= "user_id",referencedColumnName = "empId"),
-            inverseJoinColumns = @JoinColumn(name="role_id",referencedColumnName = "roleId")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name= "user_id", referencedColumnName = "empId"),
+            inverseJoinColumns = @JoinColumn(name="role_id", referencedColumnName = "roleId")
     )
-    private Set<Roles> roles;
+    private Set<Roles>roles;
 
 
     public int getEmpId() {

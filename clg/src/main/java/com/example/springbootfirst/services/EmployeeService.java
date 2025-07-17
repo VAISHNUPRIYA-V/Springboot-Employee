@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+import java.util.Optional;
 
  @Service
 public class EmployeeService {
@@ -37,25 +37,36 @@ public class EmployeeService {
 //    }
      
 
-    public String putMethod(int empId, RegisterDetails details) {
-        RegisterDetails user = repo.findById(empId)
-                .orElseThrow(() -> new RuntimeException("No Such User Present"));
-        user.setName(details.getName());
-        user.setEmail(details.getEmail());
-        user.setPassword(details.getPassword());
-        user.setUserName(details.getUserName());
-        repo.save(user);
-        return "Employee Updated Successfully";
-    }
-        public String deleteEmployeeById(int empID) {
-            repo.deleteById(empID);
-            return "Employee Deleted Successfully";
-    }
+//    public String putMethod(int empId, RegisterDetails details) {
+//        RegisterDetails user = repo.findById(empId)
+//                .orElseThrow(() -> new RuntimeException("No Such User Present"));
+//        user.setName(details.getName());
+//        user.setEmail(details.getEmail());
+//        user.setPassword(details.getPassword());
+//        user.setUserName(details.getUserName());
+//        repo.save(user);
+//        return "Employee Updated Successfully";
+//    }
 
-    public String deleteMethod(int empId){
-        repo.deleteById(empId);
-        return "Employee deleted Successfully!!!";
-    }
+
+     public String deleteMethod(int empId) {
+         Optional<RegisterDetails> optionalUser = repo.findById(empId);
+
+         if (optionalUser.isEmpty()) {
+             return "Employee not found";
+         }
+
+         RegisterDetails user = optionalUser.get();
+
+         // Step 1: Clear roles (removes associations from join table)
+         user.getRoles().clear();
+         repo.save(user);  // Persist the cleared roles
+
+         // Step 2: Now safely delete the user
+         repo.deleteById(empId);
+
+         return "Employee deleted successfully";
+     }
 
 
      public String addNewEmployee(UserDetailsDto register) {
@@ -91,10 +102,7 @@ public class EmployeeService {
          return "Employee updated successfully";
      }
 
-     public String deleteEmployee(int empId) {
-         repo.deleteById(empId);
-         return "Employee deleted successfully";
-     }
+
 
  }
 
