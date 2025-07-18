@@ -42,7 +42,7 @@ public class SpringConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration config=new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("http://localhost:5173","https://springboot-employee-2.onrender.com"));
+        config.setAllowedOriginPatterns(List.of("http://localhost:5173","https://springboot1-front.vercel.app/"));
         config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
