@@ -56,7 +56,9 @@ public class SpringConfiguration {
                 .csrf((csrf)->csrf.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth-> {
-                    auth.requestMatchers("/api/auth/**").permitAll();
+                    auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                            .requestMatchers("/api/auth/**").permitAll()
+                            .requestMatchers("/employee/**").authenticated();
                     auth.anyRequest().authenticated();
                 })
                 .addFilterBefore(jwtAuthenticationFilter , UsernamePasswordAuthenticationFilter.class);

@@ -14,13 +14,17 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int taskId;
     private String task;
-
+    private String status;
     public RegisterDetails getAssignedEmployee() {
         return assignedEmployee;
     }
 
     public void setAssignedEmployee(RegisterDetails assignedEmployee) {
         this.assignedEmployee = assignedEmployee;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @ManyToOne
